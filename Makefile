@@ -11,7 +11,7 @@ package-install:
 	pipx install --force dist/*.whl
 
 dev:
-	poetry run flask --app page_analyzer:app run
+	poetry run flask --debug --app page_analyzer:app run
 
 PORT ?= 8000
 start:
