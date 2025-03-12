@@ -1,4 +1,6 @@
 from socket import create_connection
+import dotenv
+import os
 from page_analyzer import parser
 import requests
 from flask import Flask, render_template, request, redirect, url_for, flash
@@ -9,6 +11,9 @@ from .validate import validate_url
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'asdflkasdfjasdlkfasd'
 
+dotenv.load_dotenv()
+
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 @app.route('/')
 def hello_hexlet():
@@ -17,7 +22,7 @@ def hello_hexlet():
 
 @app.get('/urls/<int:url_id>')
 def url(url_id):
-    conn = db.create_connection()
+    conn = db.create_connection(DATABASE_URL)
     url = db.get_current_url(conn, url_id)
     url_checks = db.get_url_checks(conn, url_id)
     db.close_connection(conn)
@@ -26,7 +31,7 @@ def url(url_id):
 
 @app.post('/urls')
 def urls():
-    conn = db.create_connection()
+    conn = db.create_connection(DATABASE_URL)
     url_name = request.form['url']
     if not validate_url(url_name):
         flash('Некорректный URL', 'danger')
@@ -44,7 +49,7 @@ def urls():
 
 @app.get('/urls')
 def page():
-    conn = db.create_connection()
+    conn = db.create_connection(DATABASE_URL)
     urls = db.get_urls(conn)
     db.close_connection(conn)
     return render_template('urls.html', urls=urls)
@@ -52,7 +57,7 @@ def page():
 
 @app.post('/urls/<url_id>/checks')
 def checks(url_id):
-    conn = db.create_connection()
+    conn = db.create_connection(DATABASE_URL)
     current_url = db.get_current_url(conn, url_id)
     resp = requests.get(current_url[1])
     page_info = parser.parse_page(resp.text)

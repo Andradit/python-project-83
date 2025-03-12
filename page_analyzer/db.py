@@ -2,9 +2,8 @@ import psycopg2
 from psycopg2.extras import DictCursor
 
 
-def create_connection():
-    return psycopg2.connect(
-        'postgresql://postgres:123456789@localhost:5432/hexlet')
+def create_connection(database_url):
+    return psycopg2.connect(database_url)
 
 
 def close_connection(conn):
