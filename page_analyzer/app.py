@@ -15,6 +15,7 @@ dotenv.load_dotenv()
 
 DATABASE_URL = os.getenv('DATABASE_URL')
 
+
 @app.route('/')
 def hello_hexlet():
     return render_template('index.html')
