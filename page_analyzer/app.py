@@ -60,7 +60,12 @@ def page():
 def checks(url_id):
     conn = db.create_connection(DATABASE_URL)
     current_url = db.get_current_url(conn, url_id)
-    resp = requests.get(current_url[1])
+    try:
+        resp = requests.get(current_url[1])
+    except requests.ConnectionError:
+        flash('Произошла ошибка при проверке', 'danger')
+        db.close_connection(conn)
+        return redirect(url_for('url', url_id=url_id))
     page_info = parser.parse_page(resp.text)
     db.add_url_check(conn, url_id, resp.status_code, page_info['h1'],
                      page_info['title'], page_info['description'])
