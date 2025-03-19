@@ -39,7 +39,8 @@ def urls():
     url_name = urlparse(url_name).scheme + '://' + urlparse(url_name).netloc
     if not validate_url(url_name):
         flash('Некорректный URL', 'danger')
-        return redirect(url_for('hello_hexlet'))
+        return render_template('index.html'), 422
+        # return redirect(url_for('hello_hexlet'))
     url = db.get_url_by_name(conn, url_name)
     if url:
         flash('Страница уже существует', 'info')
@@ -48,8 +49,7 @@ def urls():
     url_id = db.add_url(conn, url_name)
     db.close_connection(conn)
     flash('Страница успешно добавлена', 'success')
-    return render_template('url.html', url_id=url_id)
-    # return redirect(url_for('url', url_id=url_id))
+    return redirect(url_for('url', url_id=url_id))
 
 
 @app.get('/urls')
