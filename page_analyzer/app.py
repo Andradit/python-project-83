@@ -48,7 +48,8 @@ def urls():
     url_id = db.add_url(conn, url_name)
     db.close_connection(conn)
     flash('Страница успешно добавлена', 'success')
-    return redirect(url_for('url', url_id=url_id))
+    return render_template('url.html', url_id=url_id)
+    # return redirect(url_for('url', url_id=url_id))
 
 
 @app.get('/urls')
