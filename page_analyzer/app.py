@@ -1,6 +1,8 @@
 from socket import create_connection
 import dotenv
 import os
+import urllib.parse
+from urllib.parse import urlparse
 from page_analyzer import parser
 import requests
 from flask import Flask, render_template, request, redirect, url_for, flash
@@ -34,6 +36,7 @@ def url(url_id):
 def urls():
     conn = db.create_connection(DATABASE_URL)
     url_name = request.form['url']
+    url_name = urlparse(url_name).scheme + '://' + urlparse(url_name).netloc
     if not validate_url(url_name):
         flash('Некорректный URL', 'danger')
         return redirect(url_for('hello_hexlet'))

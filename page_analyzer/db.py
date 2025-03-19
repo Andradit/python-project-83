@@ -74,5 +74,3 @@ def get_url_checks(conn, url_id):
         url_checks = curr.fetchall()
     return url_checks
 
-# print(get_urls())
-# print(get_current_url('5'))
