@@ -65,13 +65,16 @@ def page():
 def checks(url_id):
     conn = db.create_connection(DATABASE_URL)
     current_url = db.get_current_url(conn, url_id)
+    # resp = requests.get(current_url[1])
+    # if resp.status_code != 200:
+    #     flash('Произошла ошибка при проверке', 'danger')
+    #     db.close_connection(conn)
+    #     return redirect(url_for('url', url_id=url_id))
     try:
-        resp = requests.get(current_url[1])
-    except requests.ConnectionError:
-        flash('Произошла ошибка при проверке', 'danger')
-        db.close_connection(conn)
-        return redirect(url_for('url', url_id=url_id))
-    if resp.status_code != 200:
+        resp = requests.get(current_url)
+        resp.raise_for_status()
+    except requests.exceptions.RequestException:
+    # except requests.ConnectionError:
         flash('Произошла ошибка при проверке', 'danger')
         db.close_connection(conn)
         return redirect(url_for('url', url_id=url_id))
