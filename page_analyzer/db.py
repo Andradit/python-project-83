@@ -1,5 +1,4 @@
 import psycopg2
-from psycopg2.extras import DictCursor
 
 
 def create_connection(database_url):
@@ -73,4 +72,3 @@ def get_url_checks(conn, url_id):
                     """, (url_id,))
         url_checks = curr.fetchall()
     return url_checks
-

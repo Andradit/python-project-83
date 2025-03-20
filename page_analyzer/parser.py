@@ -13,7 +13,8 @@ def parse_page(page: str):
     else:
         result['h1'] = ''
     if soup.find('meta', attrs={'name': 'description'}):
-        result['description'] = soup.find('meta', attrs={'name': 'description'})['content']
+        result['description'] = soup.find(
+            'meta', attrs={'name': 'description'})['content']
     else:
         result['description'] = ''
     print(soup.prettify())
