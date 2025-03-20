@@ -23,10 +23,10 @@
           </a>
         </td>
         <td>
-          {{ url[2] }}
+          {{ url[2] if url[2] else '' }}
         </td>
         <td>
-          {{ url[3] }}
+          {{ url[3] if url[3] else '' }}
         </td>
       </tr>
       {% endfor %}

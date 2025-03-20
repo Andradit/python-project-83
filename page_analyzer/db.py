@@ -19,7 +19,7 @@ def get_urls(conn):
                 MAX(url_checks.created_at),
                 url_checks.status_code
                 FROM urls
-                INNER JOIN url_checks ON urls.id = url_checks.url_id
+                LEFT JOIN url_checks ON urls.id = url_checks.url_id
                 GROUP BY urls.id, urls.name, url_checks.status_code
                 ORDER BY urls.id DESC
                 """)
