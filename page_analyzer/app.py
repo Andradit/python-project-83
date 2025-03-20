@@ -73,11 +73,15 @@ def checks(url_id):
     try:
         resp = requests.get(current_url)
         resp.raise_for_status()
-    except requests.exceptions.RequestException:
-    # except requests.ConnectionError:
+    except requests.exceptions.RequestException or requests.ConnectionError:
         flash('Произошла ошибка при проверке', 'danger')
         db.close_connection(conn)
         return redirect(url_for('url', url_id=url_id))
+    # except requests.ConnectionError:
+    #     flash('Произошла ошибка при проверке', 'danger')
+    #     db.close_connection(conn)
+    #     return redirect(url_for('url', url_id=url_id))
+
     page_info = parser.parse_page(resp.text)
     db.add_url_check(conn, url_id, resp.status_code, page_info['h1'],
                      page_info['title'], page_info['description'])
