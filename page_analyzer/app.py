@@ -75,7 +75,7 @@ def checks(url_id):
         resp.raise_for_status()
 
     # except requests.exceptions.HTTPError or requests.exceptions.ReadTimeout or requests.exceptions.ConnectionError or requests.exceptions.RequestException:
-    except requests.RequestException:
+    except requests.exceptions.RequestException:
         flash('Произошла ошибка при проверке', 'danger')
         db.close_connection(conn)
         return redirect(url_for('url', url_id=url_id))
