@@ -27,6 +27,7 @@ def hello_hexlet():
 def url(url_id):
     conn = db.create_connection(DATABASE_URL)
     url = db.get_current_url(conn, url_id)
+    # db.add_url(conn, url_name)
     url_checks = db.get_url_checks(conn, url_id)
     db.close_connection(conn)
     return render_template('url.html', url=url, url_checks=url_checks)
@@ -67,6 +68,10 @@ def checks(url_id):
     try:
         resp = requests.get(current_url[1])
     except requests.ConnectionError:
+        flash('Произошла ошибка при проверке', 'danger')
+        db.close_connection(conn)
+        return redirect(url_for('url', url_id=url_id))
+    if resp.status_code != 200:
         flash('Произошла ошибка при проверке', 'danger')
         db.close_connection(conn)
         return redirect(url_for('url', url_id=url_id))
