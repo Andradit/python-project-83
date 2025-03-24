@@ -16,17 +16,17 @@
     <tbody>
       {% for url in urls %}
       <tr>
-        <td>{{ url[0] }}</td>
+        <td>{{ url.id }}</td>
         <td>
           <a href="{{ url_for('url', url_id=url[0]) }}">
-            {{ url[1] }}
+            {{ url.name }}
           </a>
         </td>
         <td>
-          {{ url[2] if url[2] else '' }}
+          {{ url.last_check if url.last_check else '' }}
         </td>
         <td>
-          {{ url[3] if url[3] else '' }}
+          {{ url.status_code if url.status_code else '' }}
         </td>
       </tr>
       {% endfor %}

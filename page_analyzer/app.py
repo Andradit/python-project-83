@@ -5,7 +5,7 @@ from page_analyzer import parser
 import requests
 from flask import Flask, render_template, request, redirect, url_for, flash
 from page_analyzer import db
-from .validate import validate_url
+from .validate import validate_url, normalize_url
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'asdflkasdfjasdlkfasd'
@@ -23,7 +23,7 @@ def hello_hexlet():
 @app.get('/urls/<int:url_id>')
 def url(url_id):
     conn = db.create_connection(DATABASE_URL)
-    url = db.get_current_url(conn, url_id)
+    url = db.get_url(conn, url_id)
     url_checks = db.get_url_checks(conn, url_id)
     db.close_connection(conn)
     return render_template(
@@ -32,18 +32,16 @@ def url(url_id):
 
 @app.post('/urls')
 def urls():
-    conn = db.create_connection(DATABASE_URL)
-    url_name = request.form['url']
-    url_name = urlparse(url_name).scheme + '://' + urlparse(url_name).netloc
+    url_name = normalize_url(request.form['url'])
     if not validate_url(url_name):
         flash('Некорректный URL', 'danger')
         return render_template('index.html'), 422
-        # return redirect(url_for('hello_hexlet'))
+    conn = db.create_connection(DATABASE_URL)
     url = db.get_url_by_name(conn, url_name)
     if url:
         flash('Страница уже существует', 'info')
         db.close_connection(conn)
-        return redirect(url_for('url', url_id=url[0]))
+        return redirect(url_for('url', url_id=url.id))
     url_id = db.add_url(conn, url_name)
     db.close_connection(conn)
     flash('Страница успешно добавлена', 'success')
@@ -51,9 +49,10 @@ def urls():
 
 
 @app.get('/urls')
-def page():
+def get_urls():
     conn = db.create_connection(DATABASE_URL)
     urls = db.get_urls(conn)
+    print(urls)
     db.close_connection(conn)
     return render_template('urls.html', urls=urls)
 
@@ -61,9 +60,9 @@ def page():
 @app.post('/urls/<url_id>/checks')
 def checks(url_id):
     conn = db.create_connection(DATABASE_URL)
-    current_url = db.get_current_url(conn, url_id)
+    current_url = db.get_url(conn, url_id)
     try:
-        resp = requests.get(current_url[1])
+        resp = requests.get(current_url.name)
         resp.raise_for_status()
     except requests.RequestException:
         flash('Произошла ошибка при проверке', 'danger')

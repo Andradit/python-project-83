@@ -1,5 +1,5 @@
 import psycopg2
-
+from psycopg2.extras import NamedTupleCursor
 
 def create_connection(database_url):
     return psycopg2.connect(database_url)
@@ -10,25 +10,25 @@ def close_connection(conn):
 
 
 def get_urls(conn):
-    with conn.cursor() as curr:
-        query = ("""
+    with conn.cursor(cursor_factory=NamedTupleCursor) as curr:
+        query = """
                 SELECT
                 urls.id,
                 urls.name,
-                MAX(url_checks.created_at),
+                MAX(url_checks.created_at) as last_check,
                 url_checks.status_code
                 FROM urls
                 LEFT JOIN url_checks ON urls.id = url_checks.url_id
                 GROUP BY urls.id, urls.name, url_checks.status_code
                 ORDER BY urls.id DESC
-                """)
+                """
         curr.execute(query)
         urls = curr.fetchall()
     return urls
 
 
 def add_url(conn, name):
-    with conn.cursor() as curr:
+    with conn.cursor(cursor_factory=NamedTupleCursor) as curr:
         curr.execute("""
              INSERT INTO urls (name)
              VALUES (%s)
@@ -38,22 +38,22 @@ def add_url(conn, name):
     return url_id
 
 
-def get_current_url(conn, url_id):
-    with conn.cursor() as curr:
+def get_url(conn, url_id):
+    with conn.cursor(cursor_factory=NamedTupleCursor) as curr:
         curr.execute("SELECT * FROM urls WHERE id = %s", (url_id,))
         url = curr.fetchone()
     return url
 
 
 def get_url_by_name(conn, name):
-    with conn.cursor() as curr:
+    with conn.cursor(cursor_factory=NamedTupleCursor) as curr:
         curr.execute("SELECT * FROM urls WHERE name = %s", (name,))
         url = curr.fetchone()
         return url
 
 
 def add_url_check(conn, url_id, status_code, h1, title, description):
-    with conn.cursor() as curr:
+    with conn.cursor(cursor_factory=NamedTupleCursor) as curr:
         curr.execute("""
         INSERT INTO url_checks (url_id, status_code, h1, title, description)
         VALUES (%s, %s, %s, %s, %s)""",
@@ -63,7 +63,7 @@ def add_url_check(conn, url_id, status_code, h1, title, description):
 
 
 def get_url_checks(conn, url_id):
-    with conn.cursor() as curr:
+    with conn.cursor(cursor_factory=NamedTupleCursor) as curr:
         curr.execute("""
                     SELECT *
                     FROM url_checks

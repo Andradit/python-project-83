@@ -1,4 +1,6 @@
 import validators
+from flask import request
+from urllib.parse import urlparse
 
 
 def validate_url(url_name):
@@ -7,3 +9,7 @@ def validate_url(url_name):
     if not validators.url(url_name):
         return False
     return True
+
+
+def normalize_url(url_name):
+    return urlparse(url_name).scheme + '://' + urlparse(url_name).netloc

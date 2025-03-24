@@ -3,7 +3,7 @@
 {% block main %}
 
 
-<h1>Сайт: {{ url[1] }}</h1>
+<h1>Сайт: {{url.name}}</h1>
 
 
 <div class="table-responsive">
@@ -11,15 +11,15 @@
     <tbody>
       <tr>
         <td>ID</td>
-        <td>{{ url[0] }}</td>
+        <td>{{ url.id }}</td>
       </tr>
       <tr>
         <td>Имя</td>
-        <td>{{ url[1] }}</td>
+        <td>{{ url.name }}</td>
       </tr>
       <tr>
         <td>Дата создания</td>
-        <td>{{ url[2] }}</td>
+        <td>{{ url.created_at }}</td>
       </tr>
     </tbody>
   </table>
@@ -46,23 +46,22 @@
       {% for url_check in url_checks %}
       <tr>
         <td>
-          {{ url_check[0] }}
-        </td>
-
-        <td>
-          {{ url_check[2] }}
+          {{ url_check.id }}
         </td>
         <td>
-          {{ url_check[3] }}
+          {{ url_check.status_code }}
         </td>
         <td>
-          {{ url_check[4] }}
+          {{ url_check.h1 }}
         </td>
         <td>
-          {{ url_check[5] }}
+          {{ url_check.title }}
         </td>
         <td>
-          {{ url_check[6] }}
+          {{ url_check.description }}
+        </td>
+        <td>
+          {{ url_check.created_at }}
         </td>
       </tr>
       {% endfor %}
