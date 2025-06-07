@@ -8,7 +8,7 @@ publish:
 	uv publish --dry-run
 
 package-install:
-	pipx install --force dist/*.whl
+	pipx install --force --include-deps dist/*.whl
 
 dev:
 	uv run flask --debug --app page_analyzer:app run

@@ -4,3 +4,4 @@ __pycache__/
 .python-version
 pyproject.toml.poetry
 uv.lock
+hexlet_code.egg-info
