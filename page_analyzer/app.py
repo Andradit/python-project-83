@@ -1,6 +1,5 @@
 import dotenv
 import os
-from urllib.parse import urlparse
 from page_analyzer import parser
 import requests
 from flask import Flask, render_template, request, redirect, url_for, flash
