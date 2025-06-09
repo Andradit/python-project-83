@@ -1,4 +1,4 @@
-CREATE TABLE urls
+CREATE TABLE IF NOT EXISTS urls
 (
     id         integer primary key generated always as identity,
     name       VARCHAR(255) NOT NULL,
@@ -6,7 +6,7 @@ CREATE TABLE urls
 );
 
 
-CREATE TABLE url_checks (
+CREATE TABLE IF NOT EXISTS url_checks (
     id SERIAL PRIMARY KEY,
     url_id INTEGER,
     status_code INTEGER,
