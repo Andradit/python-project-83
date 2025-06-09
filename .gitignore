@@ -1,7 +1,6 @@
 __pycache__/
 .env
 .env.prod
-.python-version
 pyproject.toml.poetry
 uv.lock
 hexlet_code.egg-info
