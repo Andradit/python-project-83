@@ -1,5 +1,5 @@
 install:
-	pipx install uv
+	uv sync
 
 build:
 	uv build
