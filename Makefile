@@ -14,4 +14,5 @@ dev:
 	uv run flask --debug --app page_analyzer:app run
 
 start:
-	.venv/bin/python -m gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
+	ls -tlah
+	.venv/bin/python3 -m gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
