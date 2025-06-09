@@ -17,4 +17,6 @@ start:
 	ls -tlah .venv/bin
 	pwd
 	env
+	python --version
+	which python
 	.venv/bin/python3 -m gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
