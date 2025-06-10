@@ -51,7 +51,6 @@ def urls():
 def get_urls():
     conn = db.create_connection(DATABASE_URL)
     urls = db.get_urls(conn)
-    print(urls)
     db.close_connection(conn)
     return render_template('urls.html', urls=urls)
 

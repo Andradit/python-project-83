@@ -24,3 +24,20 @@ $ make package-install
 ```
 ## Starting program execution
 
+To run the application in debug mode, enter this command
+```bash
+make dev
+```
+To run the application in production mode, enter this command
+```bash
+make start
+```
+
+## Possible Improvements
+
+- Adding new columns with information on the results of site inspections
+- Creating additional conditions for site inspections
+- Adding new design themes
+- *Your* creative idea.
+
+If you encounter any problem or have any suggestions, please [open an issue](https://github.com/Andradit/python-project-83/issues/new) or [send a PR](https://github.com/Andradit/python-project-83/compare).

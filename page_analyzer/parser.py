@@ -17,5 +17,4 @@ def parse_page(page: str):
             'meta', attrs={'name': 'description'})['content']
     else:
         result['description'] = ''
-    print(soup.prettify())
     return result
