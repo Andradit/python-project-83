@@ -1,5 +1,6 @@
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/Andradit/python-project-83/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Andradit/python-project-83/actions)
+[![Maintainability](https://qlty.sh/badges/eabff0cc-8407-4563-8d9c-9d2c288735ed/maintainability.svg)](https://qlty.sh/gh/Andradit/projects/python-project-83)
 
 # A site that analyses the specified pages for SEO suitability
 
